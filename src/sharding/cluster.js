@@ -174,6 +174,10 @@ class Cluster {
             process.send({ name: "shard", embed: embed });
         });
 
+        bot.once("shardReady", id => {
+            if (this.clusterID <= 4) process.send({ name: "shardsStarted" });
+        });
+
         bot.on("shardReady", id => {
             process.send({ name: "log", msg: `Shard ${id} is ready!` });
             let embed = {
