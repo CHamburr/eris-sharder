@@ -175,7 +175,7 @@ class Cluster {
         });
 
         bot.once("shardReady", id => {
-            if (this.clusterID <= 8) process.send({ name: "shardsStarted" });
+            if (this.clusterID <= 4) process.send({ name: "shardsStarted" });
         });
 
         bot.on("shardReady", id => {
