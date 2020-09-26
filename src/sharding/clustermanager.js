@@ -25,6 +25,7 @@ class ClusterManager extends EventEmitter {
         super();
         this.shardCount = options.shards || 0;
         this.clusterCount = options.clusters || numCPUs;
+        this.concurrency = options.concurrency || 16;
         this.token = token || false;
         this.clusters = new Map();
         this.maxShards = 0;
@@ -404,6 +405,7 @@ class ClusterManager extends EventEmitter {
                     value: {
                         id: cluster.worker.id,
                         clusterCount: this.clusterCount,
+                        concurrency: this.concurrency,
                         name: "connect",
                         firstShardID: firstShardID,
                         lastShardID: lastShardID,
@@ -485,6 +487,7 @@ class ClusterManager extends EventEmitter {
             item: worker1.id, value: {
                 id: worker1.id,
                 clusterCount: this.clusterCount,
+                concurrency: this.concurrency,
                 name: "shards",
                 type: "reboot",
                 shards: shards,
