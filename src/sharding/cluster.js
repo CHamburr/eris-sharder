@@ -22,6 +22,7 @@ class Cluster {
         this.mainFile = null;
         this.clusterID = null;
         this.clusterCount = null;
+        this.concurrency = null;
         this.guilds = 0;
         this.users = 0;
         this.uptime = 0;
@@ -64,6 +65,7 @@ class Cluster {
                             this.mainFile = msg.file;
                             this.clusterID = msg.id;
                             this.clusterCount = msg.clusterCount;
+                            this.concurrency = msg.concurrency;
                             if (this.shards < 1) return;
                             if (msg.test) {
                                 this.test = true;
@@ -77,6 +79,7 @@ class Cluster {
                         this.mainFile = msg.file;
                         this.clusterID = msg.id;
                         this.clusterCount = msg.clusterCount;
+                        this.concurrency = msg.concurrency;
                         if (this.shards < 1) return;
                         if (msg.test) {
                             this.test = true;
@@ -175,7 +178,9 @@ class Cluster {
         });
 
         bot.once("shardReady", id => {
-            if (this.clusterID <= 4) process.send({ name: "shardsStarted" });
+            if (this.clusterID <= this.concurrency) {
+                process.send({ name: "shardsStarted" });
+            }
         });
 
         bot.on("shardReady", id => {
